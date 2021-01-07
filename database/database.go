@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/ChiKangMa/go-support/debug"
+	"github.com/joho/godotenv"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -16,7 +17,10 @@ var Db *sql.DB
 var Connection, DataSourceName string
 
 func InitDB() {
-	var err error
+	err := godotenv.Load()
+	if err != nil {
+		debug.PrintError(err)
+	}
 	driverName, dataSourceName := getDBConfig()
 	Db, err = sql.Open(driverName, dataSourceName)
 	debug.PrintError(err)
